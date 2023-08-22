@@ -1,7 +1,15 @@
 from rest_framework import serializers
-from .models import CustomUser
+from . import services
+
 
 class CustomUserSerializer(serializers.Serializer):
-    class Meta:
-        model = CustomUser
-        fields = ['id', 'first_name', 'last_name', 'email', 'password']
+    id = serializers.IntegerField(read_only=True)
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    email = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+            # Распаковываем данные в service dataclass
+        return services.UserDataClass(**data)
