@@ -70,7 +70,7 @@ class LogoutApi(views.APIView):
     authentication_classes = (authentication.CustomUserAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def post(self):
+    def post(self, request):
         resp = response.Response()
         resp.delete_cookie('jwt')
         resp.data = {'message': 'bye'}
