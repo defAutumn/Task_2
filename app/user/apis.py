@@ -36,6 +36,7 @@ class LoginApi(views.APIView):
 
         return resp
 
+
 class UserApi(views.APIView):
     """
     This endpoint can only be used
@@ -44,18 +45,32 @@ class UserApi(views.APIView):
     authentication_classes = (authentication.CustomUserAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self,request):
+    def get(self, request):
         user = request.user
 
         serializer = user_serializer.CustomUserSerializer(user)
 
         return response.Response(serializer.data)
 
+    def put(self, request):
+        user = request.user
+        serializer = user_serializer.UserPutSerializer(user, data=request.data)  # use new serializer here
+        if serializer.is_valid():
+            serializer.save()
+            return response.Response(serializer.data)
+        return response.Response(serializer.errors)
+
+    def delete(self, request):
+        user = request.user
+        user.delete()
+
+        return response.Response({"result": "user delete"})
+
 class LogoutApi(views.APIView):
     authentication_classes = (authentication.CustomUserAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def post(self, request):
+    def post(self):
         resp = response.Response()
         resp.delete_cookie('jwt')
         resp.data = {'message': 'bye'}

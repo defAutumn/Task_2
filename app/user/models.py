@@ -38,6 +38,7 @@ class UserManager(auth_models.BaseUserManager):
         return user
 
 
+
 class CustomUser(auth_models.AbstractUser):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
