@@ -2,6 +2,7 @@ from rest_framework import serializers
 from . import services
 from . import models
 
+
 class CustomUserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField()
@@ -14,7 +15,12 @@ class CustomUserSerializer(serializers.Serializer):
             # Распаковываем данные в service dataclass
         return services.UserDataClass(**data)
 
-class UserPutSerializer(serializers.ModelSerializer): # new serializer class
+class CustomUserPutSerializer(serializers.ModelSerializer): # new serializer class
     class Meta:
         model = models.CustomUser
         fields = ['first_name', 'last_name']
+
+class CustomUserLoginSerializer(serializers.ModelSerializer): # new serializer class
+    class Meta:
+        model = models.CustomUser
+        fields = ['email', 'password']

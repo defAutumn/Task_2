@@ -9,3 +9,43 @@
 "email":"admin@admin.com",
 "password":"Felixm2023"
 }
+
+{
+    "first_name":"Olga",
+    "last_name":"Kuzmina",
+    "email":"olga@gmail.com",
+    "password":"Olgakuzmina2023"
+}
+
+{
+    "first_name":"Anton",
+    "last_name":"Karpov",
+    "email":"karpov@gmail.com",
+    "password":"Sergeikuzmin2023"
+}
+
+curl -X 'POST' \
+  'http://127.0.0.1:8000/api/register/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'X-CSRFTOKEN: DitZbFBIzmnpCOLdjlTNbAReaYQdGtzTTbNusILt8cFxrvD9fCVKhR0f4l2aURq7' \
+  -d '{
+  "first_name": "string",
+  "last_name": "string",
+  "email": "string@gmail.com",
+  "password": "String2023"
+}'
+
+{
+  "first_name": "string",
+  "last_name": "string",
+  "email": "string2@gmail.com",
+  "password": "string2023"
+}
+
+{
+  "first_name": "Olga",
+  "last_name": "Kuzmina",
+  "email": "kuzmina-o@bk.ru",
+  "password": "ok2610040"
+}

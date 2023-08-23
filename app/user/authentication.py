@@ -1,5 +1,6 @@
 from django.conf import settings
 from rest_framework import authentication, exceptions
+from drf_spectacular.extensions import OpenApiAuthenticationExtension
 import jwt
 
 from . import models
