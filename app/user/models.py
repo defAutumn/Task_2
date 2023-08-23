@@ -44,6 +44,8 @@ class CustomUser(auth_models.AbstractUser):
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
+    is_verified = models.BooleanField(default=False)
+    otp = models.CharField(max_length=6, null=True, blank=True)
     username = None
 
     objects = UserManager()

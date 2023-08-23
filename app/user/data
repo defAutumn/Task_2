@@ -49,3 +49,17 @@ curl -X 'POST' \
   "email": "kuzmina-o@bk.ru",
   "password": "ok2610040"
 }
+
+{
+  "first_name": "Sergei",
+  "last_name": "Kuzmin",
+  "email": "chromwee@mail.ru",
+  "password": "Felixm2023"
+}
+
+{
+  "first_name": "Olga",
+  "last_name": "Kuzminba",
+  "email": "kuzmina-o@bk.ru",
+  "password": "ok2610040"
+}

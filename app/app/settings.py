@@ -143,3 +143,9 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'chromweechannelusa@gmail.com'
+EMAIL_HOST_PASSWORD = 'cryjvbgzpwxvwuic'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

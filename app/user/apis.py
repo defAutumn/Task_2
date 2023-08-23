@@ -3,7 +3,7 @@ from rest_framework import views, response, exceptions, permissions, status
 
 from . import serializer as user_serializer
 from . import services, authentication
-
+from . import emails
 
 @extend_schema(tags=["Register"])
 class RegisterApi(views.APIView):
@@ -57,13 +57,54 @@ class LoginApi(views.APIView):
         if not user.check_password(raw_password=password):
             raise exceptions.AuthenticationFailed('Invalid Credentials')
 
-        token = services.create_token(user_id=user.id)
+        emails.send_otp_email(user.email)
 
-        resp = response.Response()
 
-        resp.set_cookie(key='jwt', value=token, httponly=True)
 
-        return resp
+        return response.Response({"result": "check OTP on mail"})
+
+
+
+class VerifyOTP(views.APIView):
+    @extend_schema(
+        summary='Login user',
+        request=user_serializer.VerifyAccountSerializer,
+        responses={status.HTTP_200_OK: user_serializer.CustomUserSerializer},
+    )
+    def post(self, request):
+        try:
+            data = request.data
+            serializer = user_serializer.VerifyAccountSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+
+            email = serializer.data['email']
+            otp = serializer.data['otp']
+
+            user = services.user_mail_selector(email)
+
+            if user is None:
+                raise exceptions.AuthenticationFailed('Invalid Credentials')
+
+            if not user.otp == otp:
+                raise exceptions.AuthenticationFailed('Invalid Credentials')
+
+
+
+            user.is_verified = True
+            user.save()
+
+            token = services.create_token(user_id=user.id)
+
+            resp = response.Response()
+
+            resp.set_cookie(key='jwt', value=token, httponly=True)
+
+            return resp
+        except Exception as e:
+            print(e)
+
+
+
 
 
 @extend_schema(tags=["User"])
