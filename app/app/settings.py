@@ -81,7 +81,7 @@ DATABASES = {
     }
 }
 
-DATABASES['default'] = dj_database_url.config()
+# DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -154,3 +154,6 @@ EMAIL_HOST_USER = 'chromweechannelusa@gmail.com'
 EMAIL_HOST_PASSWORD = 'cryjvbgzpwxvwuic'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'

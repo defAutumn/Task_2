@@ -1,9 +1,9 @@
-from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiResponse, OpenApiParameter, OpenApiExample
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import views, response, exceptions, permissions, status
-
 from . import serializer as user_serializer
 from . import services, authentication
-from . import emails
+from .tasks import send_otp_email
+
 
 @extend_schema(tags=["Register"])
 class RegisterApi(views.APIView):
@@ -48,7 +48,6 @@ class LoginApi(views.APIView):
     def post(self, request):
         email = request.data['email']
         password = request.data['password']
-
         user = services.user_mail_selector(email=email)
 
         if user is None:
@@ -57,12 +56,9 @@ class LoginApi(views.APIView):
         if not user.check_password(raw_password=password):
             raise exceptions.AuthenticationFailed('Invalid Credentials')
 
-        emails.send_otp_email(user.email)
-
-
+        send_otp_email.delay(email)
 
         return response.Response({"result": "check OTP on mail"})
-
 
 
 class VerifyOTP(views.APIView):
