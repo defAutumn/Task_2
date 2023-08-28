@@ -43,6 +43,13 @@ def user_mail_selector(email: str) -> 'CustomUser':
 
     return user
 
+def in_time(login_date):
+    login_date = datetime.datetime.strptime(login_date, '%Y-%m-%d %H:%M:%S')
+    now = datetime.datetime.now()
+    result = str(now-login_date)
+    return print(int(result.split(':')[1]) < 2)
+
+
 def create_token(user_id: int) -> str:
     payload = dict(
         id=user_id,
@@ -51,3 +58,5 @@ def create_token(user_id: int) -> str:
     )
     token = jwt.encode(payload, settings.JWT_SECRET, algorithm='HS256')
     return token
+
+

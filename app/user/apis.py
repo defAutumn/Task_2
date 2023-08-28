@@ -76,6 +76,8 @@ class VerifyOTP(views.APIView):
             email = serializer.data['email']
             otp = serializer.data['otp']
 
+
+
             user = services.user_mail_selector(email)
 
             if user is None:
@@ -83,6 +85,9 @@ class VerifyOTP(views.APIView):
 
             if not user.otp == otp:
                 raise exceptions.AuthenticationFailed('Invalid Credentials')
+
+            if not services.in_time(user.login_date):
+                return response.Response({"result": "Time is over"})
 
 
 
@@ -154,7 +159,7 @@ class UserApi(views.APIView):
     @extend_schema(summary='Delete User',
                    request=None,
                    responses={status.HTTP_200_OK: user_serializer.CustomUserSerializer,
-                              status.HTTP_400_BAD_REQUEST: user_serializer.CustomUserSerializer,
+                              status.HTTP_400_BAD_REQUEST: {"result": "user delete"},
                               status.HTTP_401_UNAUTHORIZED: user_serializer.CustomUserSerializer,
                               status.HTTP_403_FORBIDDEN: user_serializer.CustomUserSerializer,
                               status.HTTP_500_INTERNAL_SERVER_ERROR: OpenApiResponse(
